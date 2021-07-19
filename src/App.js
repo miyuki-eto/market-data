@@ -29,7 +29,7 @@ export default function App() {
   const [dataOiEX,setDataOiEX] = useState([]);
 
   function updateData() {
-      const tokens = ["BTC", "ETH", "UNI", "DOT", "SNX", "SUSHI", "BNB", "AAVE", "YFI", "MKR", "SOL", "LTC", "DOGE"];
+      const tokens = ["BTC", "ETH", "LINK", "UNI", "DOT", "SNX", "SUSHI", "BNB", "AAVE", "YFI", "MKR", "SOL", "LTC", "DOGE"];
       setDataOiALL([])
       setDataOiEX([])
       tokens.map((token, i) =>
