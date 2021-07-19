@@ -28,14 +28,22 @@ export default function App() {
   const [dataOiALL,setDataOiALL] = useState([]);
   const [dataOiEX,setDataOiEX] = useState([]);
 
-  useEffect(() => {
+  function updateData() {
       const tokens = ["BTC", "ETH", "UNI", "DOT", "SNX", "SUSHI", "BNB", "AAVE", "YFI", "MKR", "SOL", "LTC", "DOGE"];
       setDataOiALL([])
       setDataOiEX([])
       tokens.map((token, i) =>
-        getDataOi(token)
+          getDataOi(token)
       )
+  }
+  useEffect(() => {
+      updateData()
+      const interval=setInterval(()=>{
+          updateData()
+      },1200000)
 
+
+      return()=>clearInterval(interval)
   }, [])
 
     function getDataOi(ticker) {
@@ -55,7 +63,6 @@ export default function App() {
             })
     }
 
-    console.log(dataOiALL)
   return (
       <div style={{borderRadius: 10, maxWidth: "90%", marginLeft: "60px", marginRight: "60px", marginTop: "20px" , marginBottom: "20px" }}>
         <MaterialTable
@@ -65,9 +72,9 @@ export default function App() {
             options={{
               grouping: false,
               paging:false,
-              padding: "dense"
-
+              padding: "dense",
             }}
+
 
             detailPanel={rowData => {
               return (
