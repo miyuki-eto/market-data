@@ -25,35 +25,41 @@ const tableIcons = {
 
 export default function App() {
 
-  const [dataALL,setDataALL] = useState([]);
-  const [dataBTC,setDataBTC] = useState();
-  const [dataETH,setDataETH] = useState();
+  const [dataOiALL,setDataOiALL] = useState([]);
+  const [dataOiEX,setDataOiEX] = useState([]);
 
   useEffect(() => {
-    getDataBTC()
-    getDataETH()
+      const tokens = ["BTC", "ETH", "UNI", "DOT", "SNX", "SUSHI", "BNB", "AAVE", "YFI", "MKR", "SOL", "LTC", "DOGE"];
+      setDataOiALL([])
+      setDataOiEX([])
+      tokens.map((token, i) =>
+        getDataOi(token)
+      )
 
   }, [])
 
-  function getDataBTC() {
-    const url = 'https://fapi.bybt.com/api/openInterest/pc/info?symbol=BTC';
-    axios.get(url)
-        .then(results => {
-          setDataBTC(results.data.data)
-        })
-  }
-  function getDataETH() {
-    const url = 'https://fapi.bybt.com/api/openInterest/pc/info?symbol=ETH';
-    axios.get(url)
-        .then(results => {
-          setDataETH(results.data.data)
-        })
-  }
+    function getDataOi(ticker) {
+        const url = 'https://fapi.bybt.com/api/openInterest/pc/info?symbol=' + ticker;
+        axios.get(url)
+            .then(results => {
+                setDataOiALL(oldData => [...oldData, results.data.data[0]])
+                results.data.data.map((result, i) => {
+                        // console.log(result)
+                        // console.log(i)
+                    if (!(i === 0)) {
+                        setDataOiEX(oldData => [...oldData, result])
+                    }
+                    }
+                )
+                // setDataOiEX(oldData => [...oldData, results.data.data])
+            })
+    }
 
+    console.log(dataOiALL)
   return (
       <div style={{borderRadius: 10, maxWidth: "90%", marginLeft: "60px", marginRight: "60px", marginTop: "20px" , marginBottom: "20px" }}>
         <MaterialTable
-            data={dataBTC}
+            data={dataOiALL}
             title='Token Data'
             icons={tableIcons}
             options={{
@@ -66,20 +72,22 @@ export default function App() {
             detailPanel={rowData => {
               return (
                   <MaterialTable
-                      data={dataETH}
+                      data={dataOiEX.filter(row => row.symbol === rowData.symbol)}
+                      icons={tableIcons}
                       options={{
                         grouping: false,
                         paging:false,
                         search: false,
                         showTitle: false,
                         padding: "dense",
-                        header: false
+                        header: true
 
                       }}
                       columns={[
                         {
                           title: 'Exchange',
                           field: 'image',
+                          align: 'center',
                           render: rowData => (
                               <img
                                   style={{ height: 24}}
@@ -101,19 +109,19 @@ export default function App() {
               )
             }}
             columns={[
-              {
-                title: 'Exchange',
-                field: 'image',
-                render: rowData => (
-                    <img
-                        style={{ height: 24}}
-                        src={rowData.exchangeLogo}
-                        alt="profile"
-                    />
-                ),
-              },
-              { title: "Exchange", field: "exchangeName", align: 'right' },
-              { title: "Price", field: "price", type: "currency", align: 'right' },
+              // {
+              //   title: 'Exchange',
+              //   field: 'image',
+              //   render: rowData => (
+              //       <img
+              //           style={{ height: 24}}
+              //           src={rowData.exchangeLogo}
+              //           alt="profile"
+              //       />
+              //   ),
+              // },
+              { title: "Symbol", field: "symbol", align: 'right' },
+              // { title: "Price", field: "price", type: "currency", align: 'right' },
               { title: "OI (USD)", field: "openInterest" , type: "currency", align: 'right' },
               { title: "OI (Token)", field: "openInterestAmount" , type: "numeric", align: 'right' },
               { title: "1H Change", field: "h1OIChangePercent", type: "numeric" },
