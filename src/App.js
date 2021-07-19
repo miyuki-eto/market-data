@@ -41,8 +41,6 @@ export default function App() {
       const interval=setInterval(()=>{
           updateData()
       },1200000)
-
-
       return()=>clearInterval(interval)
   }, [])
 
@@ -52,14 +50,11 @@ export default function App() {
             .then(results => {
                 setDataOiALL(oldData => [...oldData, results.data.data[0]])
                 results.data.data.map((result, i) => {
-                        // console.log(result)
-                        // console.log(i)
                     if (!(i === 0)) {
                         setDataOiEX(oldData => [...oldData, result])
                     }
                     }
                 )
-                // setDataOiEX(oldData => [...oldData, results.data.data])
             })
     }
 
@@ -75,7 +70,6 @@ export default function App() {
               padding: "dense",
             }}
 
-
             detailPanel={rowData => {
               return (
                   <MaterialTable
@@ -88,7 +82,6 @@ export default function App() {
                         showTitle: false,
                         padding: "dense",
                         header: true
-
                       }}
                       columns={[
                         {
@@ -116,19 +109,7 @@ export default function App() {
               )
             }}
             columns={[
-              // {
-              //   title: 'Exchange',
-              //   field: 'image',
-              //   render: rowData => (
-              //       <img
-              //           style={{ height: 24}}
-              //           src={rowData.exchangeLogo}
-              //           alt="profile"
-              //       />
-              //   ),
-              // },
               { title: "Symbol", field: "symbol", align: 'right' },
-              // { title: "Price", field: "price", type: "currency", align: 'right' },
               { title: "OI (USD)", field: "openInterest" , type: "currency", align: 'right' },
               { title: "OI (Token)", field: "openInterestAmount" , type: "numeric", align: 'right' },
               { title: "1H Change", field: "h1OIChangePercent", type: "numeric" },
