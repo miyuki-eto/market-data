@@ -23,7 +23,7 @@ const tableIcons = {
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
 };
 
-export default function App() {
+export default function OpenInterestTable() {
 
   const [dataOiALL,setDataOiALL] = useState([]);
   const [dataOiEX,setDataOiEX] = useState([]);
@@ -58,7 +58,7 @@ export default function App() {
       <div style={{borderRadius: 10, maxWidth: "90%", marginLeft: "60px", marginRight: "60px", marginTop: "20px" , marginBottom: "20px" }}>
         <MaterialTable
             data={dataOiALL}
-            title='Token Data'
+            title='Open Interest'
             icons={tableIcons}
             options={{
               grouping: false,
