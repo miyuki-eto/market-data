@@ -88,7 +88,7 @@ export default function OpenInterestTable() {
                           render: rowData => (<img style={{ height: 24}} src={rowData.exchangeLogo} alt="exchange"/>),
                         },
                         { title: "Exchange", field: "exchangeName", align: 'right' },
-                        { title: "Price", field: "price", type: "currency", align: 'right' },
+                        // { title: "Price", field: "price", type: "currency", align: 'right' },
                         { title: "OI (USD)", field: "openInterest" , type: "currency", align: 'right' },
                         { title: "OI (Token)", field: "openInterestAmount" , type: "numeric", align: 'right' },
                         { title: "1H Change", field: "h1OIChangePercent", type: "numeric" },
